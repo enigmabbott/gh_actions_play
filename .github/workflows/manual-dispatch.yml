@@ -1,10 +1,10 @@
-name: Manual Demo
+name: Manual Demo2
 run-name: "${{ github.actor }} is testing out GitHub Actions 🚀"
 on:
   workflow_dispatch:
     inputs:
       app_name:
-        description: application name
+        description: "application name"
         required: true
         default: my-fake-app-name
 jobs:
@@ -13,4 +13,3 @@ jobs:
     steps:
       - run: |
           echo "The job was manually triggered;"
-          echo "The job was manually triggered: app_name ${{ github.event.inputs.app_name }} ."
