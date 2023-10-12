@@ -1,0 +1,9 @@
+name: Foo  Demo
+run-name: "${{ github.actor }} is testing out GitHub Actions 🚀"
+on: [push]
+jobs:
+  my-test-job-name:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "The job was manually triggered;"
