@@ -3,13 +3,33 @@ run-name: "${{ github.actor }} is testing out GitHub Actions 🚀"
 on:
   workflow_dispatch:
     inputs:
-      app_name:
-        description: "application name"
+      logLevel:
+        description: 'Log level'
         required: true
-        default: my-fake-app-name
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
+      tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
+
 jobs:
-  my-test-job-name:
+  log-the-inputs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "The job was manually triggered;"
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
