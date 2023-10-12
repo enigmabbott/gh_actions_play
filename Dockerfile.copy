@@ -8,6 +8,7 @@ RUN ./gradlew build || exit 0
 COPY src /code/src
 RUN ./gradlew --no-daemon clean bootJar
 
+RUN jar xf build/libs/spring-boot-0.0.1-SNAPSHOT.jar
 RUN jdeps \
 # dont worry about missing modules
 --ignore-missing-deps \
@@ -18,7 +19,7 @@ RUN jdeps \
 # output the dependencies at end of run
 --print-module-deps \
 # specify the the dependencies for the jar
---class-path build/lib/* \
+--class-path 'BOOT-INF/lib/*'  \
 # pipe the result of running jdeps on the app jar to file
 build/libs/spring-boot-0.0.1-SNAPSHOT.jar > jre-deps.info
 
@@ -29,7 +30,7 @@ RUN jlink --verbose \
 --no-header-files \
 --no-man-pages \
 --output jre \
---add-modules java.xml,java.sql,java.prefs,java.desktop,$(cat jre-deps.info)
+--add-modules $(cat jre-deps.info)
 
 FROM alpine:latest
 WORKDIR /deployment
